@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~firebaseui/dist/firebaseui.css';
+@import "../node_modules/primeicons/primeicons.css";
+@import "../node_modules/primeng/resources/themes/saga-blue/theme.css";
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.css";
+
+//GLOBALES
+.main-container{
+  max-width: 1600px;
+  border: 1px red solid;
+  padding: 1.66em;
+  margin: 0 auto;
+
+}

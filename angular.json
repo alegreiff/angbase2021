@@ -120,9 +120,16 @@
               "devServerTarget": "authformas:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     }
   },
-  "defaultProject": "authformas"
+  "defaultProject": "authformas",
+  "cli": {
+    "analytics": false
+  }
 }

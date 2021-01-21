@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "cuentas-jaime": {
+      "hosting": {
+        "authformas": [
+          "cuentas-jaime"
+        ]
+      }
+    }
+  }
+}
