@@ -1,0 +1,10 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+  <button pButton type="submit" class="btn btn-default" label="Ingresar"></button>
+</form>
+
+<p-button label="Acceso Google" (click)="googleAcceso()"></p-button>
+<p-button label="Salir"
+(click)="logout()"
+></p-button>
+

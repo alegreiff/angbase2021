@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import firebase from 'firebase/app';
+import { FormGroup } from '@angular/forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +16,27 @@ export class AppComponent implements OnInit {
   public miuser: Observable<firebase.User | null>;
   private user: Observable<firebase.User | null>;
   title = 'authformas';
-  constructor(private afAuth: AngularFireAuth) {}
+
+  form = new FormGroup({});
+  model = { email: 'email@gmail.com' };
+  fields: FormlyFieldConfig[] = [
+    {
+      key: 'email',
+      type: 'input',
+      templateOptions: {
+        label: 'Email address',
+        placeholder: 'Enter email',
+        required: true,
+      },
+    },
+  ];
+
+  constructor(
+    private AuthService: AuthService,
+    private afAuth: AngularFireAuth
+  ) {
+    this.AuthService.initAuthListener();
+  }
 
   async login() {
     const result = await this.afAuth
@@ -43,5 +66,9 @@ export class AppComponent implements OnInit {
         espan.innerHTML = 'Ingresar con correo electrónico';
       }
     }, 4000);
+  }
+
+  onSubmit(model) {
+    console.log(this.model, model);
   }
 }
