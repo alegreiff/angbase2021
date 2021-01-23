@@ -12,7 +12,7 @@ import firebase from 'firebase/app';
 })
 export class LoginComponent implements OnInit {
   form = new FormGroup({});
-  model = { email: 'test@test.es', password: '123456' };
+  model = { email: 'test@test.es', password: '$Santafe13' };
   fields: FormlyFieldConfig[] = [
     {
       key: 'email',
@@ -41,9 +41,7 @@ export class LoginComponent implements OnInit {
     const { email, password } = this.model;
     this.authService.login(email, password);
   }
-  logout() {
-    this.authService.logout();
-  }
+
   googleAcceso() {
     this.authService.googleAcceso();
   }

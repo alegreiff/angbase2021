@@ -1,0 +1,11 @@
+@import "variables.scss";
+
+.iconogrande{
+  color: $colorN;
+  font-size: 3.8em;
+}
+
+.menue{
+  padding: 0 1em;
+  border-bottom: 2px solid lighten($colorN, 50%);
+}

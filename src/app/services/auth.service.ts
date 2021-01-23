@@ -1,22 +1,48 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import firebase from 'firebase/app';
-import { first, map, take, tap } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { ClientesCuentas } from '../shared/interfaces/user';
+import { ClientesCuentas, User } from '../shared/interfaces/user';
+import { StoreService } from '../store/store.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  subs: Subscription;
   //private user$: Observable<firebase.User | null>;
-  constructor(private afAuth: AngularFireAuth, private db: AngularFirestore) {}
+  constructor(
+    private afAuth: AngularFireAuth,
+    private db: AngularFirestore,
+    private STORE: StoreService,
+    private router: Router
+  ) {}
 
   initAuthListener() {
-    this.afAuth.authState.pipe(take(0)).subscribe((fuser: firebase.User) => {
-      console.log('Usuario:', fuser?.email);
+    this.afAuth.authState.subscribe((fuser: firebase.User) => {
+      if (fuser) {
+        this.cargaClientes();
+        const usuario: User = {
+          displayName: fuser.displayName,
+          email: fuser.email,
+          photoURL: fuser.photoURL,
+          uid: fuser.uid,
+          emailVerified: fuser.emailVerified,
+        };
+        this.STORE.addUser(usuario);
+      } else {
+        this.STORE.addUser(null);
+      }
     });
+  }
+  cargaClientes() {
+    this.subs = this.db
+      .collection('clientescuentas')
+      .valueChanges()
+      .subscribe((clientes) => this.STORE.setClientes(clientes));
   }
   isAuth() {
     //TODO: Si existe devuelve TRUE si no existe FALSE
@@ -30,11 +56,15 @@ export class AuthService {
         this.clienteFirebase(user);
       })
       .catch((error) => {
-        console.log(error.message);
+        console.log('Hay un error con los datos del Usuario');
       });
   }
   logout() {
     this.afAuth.signOut();
+    this.subs.unsubscribe();
+    this.STORE.limpiaClientes();
+    this.router.navigateByUrl('/login');
+    //this.router.navigateByUrl('/contenido');
   }
   googleAcceso() {
     const proveedor = new firebase.auth.GoogleAuthProvider();
@@ -73,12 +103,12 @@ export class AuthService {
             this.db.doc(`clientescuentas/${user.uid}`).set({
               ...nuevoCliente,
             });
-          } else {
-            console.log(' el cabrón ya existe');
           }
         },
         (error) => {
-          console.log(error);
+          console.log(
+            'Hay un error con el registro de este Usuario en la BASE de DATOS'
+          );
         }
       );
   }

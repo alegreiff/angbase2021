@@ -20,6 +20,7 @@ import {
   validateRequired,
 } from './shared/mensajes-validacion';
 import { FormlyFieldCalendar } from './shared/ff-calendar';
+import { NavComponent } from './shared/componentes/nav/nav.component';
 
 const firebaseUiAuthConfig: any = {
   signInFlow: 'popup',
@@ -30,7 +31,7 @@ const firebaseUiAuthConfig: any = {
 };
 
 @NgModule({
-  declarations: [AppComponent, FormlyFieldCalendar],
+  declarations: [AppComponent, FormlyFieldCalendar, NavComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

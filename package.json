@@ -21,6 +21,8 @@
     "@angular/platform-browser": "~11.0.3",
     "@angular/platform-browser-dynamic": "~11.0.3",
     "@angular/router": "~11.0.3",
+    "@codewithdan/observable-store": "^2.2.11",
+    "@codewithdan/observable-store-extensions": "^2.2.8",
     "@ngx-formly/core": "^5.0.0",
     "@ngx-formly/primeng": "^5.0.0",
     "@ngx-formly/schematics": "^5.10.11",

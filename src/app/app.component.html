@@ -1,32 +1,6 @@
-<div class="main-container">
-
-  <div class="p-grid">
-    <div class="p-col-4"><!-- <firebase-ui > </firebase-ui> --></div>
-    <div class="p-col"><p-button label="Click" ></p-button></div>
-    <div class="p-col"> <a routerLink="/">Inicio</a> </div>
-    <div class="p-col"> <a routerLink="/login">Login</a> </div>
-    <div class="p-col"> <a routerLink="/contenido">Contenido</a> </div>
-    <div class="p-col">1 </div>
-    <div class="p-col">1 </div>
-    <div class="p-col">Zacca</div>
-    <div class="p-col">1 </div>
-  </div>
-
-  <div class="p-grid">
-    <!-- <form [formGroup]="form" (ngSubmit)="onSubmit(model)">
-      <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
-      <button type="submit" class="btn btn-default">Submit</button>
-    </form> -->
-  </div>
-
-  <!-- <div class="inicio">
-
-
-    <pre>
-      {{ miuser | async | json }}
-    </pre>
-  </div> -->
+<div class="main-container" >
+  <MenuPrincipal></MenuPrincipal>
+  <div class="mainContent">
   <router-outlet></router-outlet>
-
-
+  </div>
 </div>

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
-import firebase from 'firebase/app';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { AuthService } from './services/auth.service';
+import { StoreService } from './store/store.service';
+import { map } from 'rxjs/operators';
+import { User } from './shared/interfaces/user';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +13,7 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  //public user: User;
-  public miuser: Observable<firebase.User | null>;
-  private user: Observable<firebase.User | null>;
+  usuarioActivo$: Observable<User | null> = null;
   title = 'authformas';
 
   form = new FormGroup({});
@@ -30,24 +29,16 @@ export class AppComponent implements OnInit {
       },
     },
   ];
-
-  constructor(
-    private AuthService: AuthService,
-    private afAuth: AngularFireAuth
-  ) {
+  estado: Observable<any>;
+  constructor(private AuthService: AuthService, private STORE: StoreService) {
     this.AuthService.initAuthListener();
   }
 
-  async login() {
-    const result = await this.afAuth
-      .signInWithEmailAndPassword('test@test.es', '123456')
-      .then((res) => console.log(res));
-  }
   ngOnInit() {
-    //this.login();
-    this.afAuth.signOut();
-    this.miuser = this.afAuth.user;
-    setTimeout(function () {
+    this.usuarioActivo$ = this.STORE.stateChanged.pipe(
+      map((state) => state.loggedUser)
+    );
+    /* setTimeout(function () {
       var buttonGoogle = document.querySelector(
         '[data-provider-id="google.com"]'
       );
@@ -65,10 +56,10 @@ export class AppComponent implements OnInit {
         )[1];
         espan.innerHTML = 'Ingresar con correo electrónico';
       }
-    }, 4000);
+    }, 4000); */
   }
 
-  onSubmit(model) {
-    console.log(this.model, model);
+  logout() {
+    this.AuthService.logout();
   }
 }
